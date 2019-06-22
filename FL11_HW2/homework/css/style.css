@@ -112,7 +112,8 @@
     }
     
     .tm-banner {
-        padding: none;    }
+        padding: 0; 
+    }
 
     .tm-banner-text {
         animation: none;
