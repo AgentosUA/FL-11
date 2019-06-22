@@ -135,7 +135,7 @@
 
     .flex-2-col .flex-item { padding-top: 0x; }
 
-    ..padding-medium { padding: 0;}
+    .padding-medium { padding: 0;}
 
     .carousel-content h2 { color: gainsboro; letter-spacing: 0; }
 }
