@@ -87,6 +87,7 @@
 #contact_message {
     border: 2px solid #7CD0D9;
     border-radius: 5px;
+    resize: none;
 }
 
 .btn-primary {
@@ -139,4 +140,13 @@
     .padding-medium { padding: 0;}
 
     .carousel-content h2 { color: gainsboro; letter-spacing: 0; }
+
+    .padding-medium ol { list-style-type: none; }
+    .padding-medium ol li a { color: #000; }
+    .padding-medium ol li a:hover { 
+    color: #ffb347; 
+    border-left: 4px solid #ffb347; 
+    font-weight: bold; 
+    padding-left: 2px;
+    }
 }
