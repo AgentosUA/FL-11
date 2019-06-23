@@ -108,13 +108,11 @@
 }
 
 @media print {
-    .tm-sidebar, .tm-team-img, .padding-medium::after, .tm-content-box::after, .heading:after, .blocks, #contact, #about, .img-contact-us {
+    .tm-sidebar, .tm-team-img, .padding-medium::after, .tm-content-box::after, .heading:after, .blocks, #contact, #about, .img-contact-us, .carousel-indicators {
         display: none;
     }
     
-    .tm-banner {
-        padding: 0; 
-    }
+    .tm-banner { padding: 0; }
 
     .tm-banner-text {
         animation: none;
@@ -135,18 +133,23 @@
         text-transform: none;
     }
 
-    .flex-2-col .flex-item { padding-top: 0; }
+    .flex-2-col .flex-item { padding: 0; }
 
-    .padding-medium { padding: 0;}
+    .padding-medium { padding: 0; }
 
     .carousel-content h2 { color: gainsboro; letter-spacing: 0; }
 
-    .padding-medium ol { list-style-type: none; }
+    .padding-medium ol { list-style-type: none; width: 450px; margin: 0 auto; }
+    .padding-medium ol li:nth-child(2n) { text-align: right; }
     .padding-medium ol li a { color: #000; }
-    .padding-medium ol li a:hover { 
-    color: #ffb347; 
-    border-left: 4px solid #ffb347; 
-    font-weight: bold; 
-    padding-left: 2px;
+    .padding-medium ol li a::first-letter { color: #9FD8fa; font-size: 26px;}
+    .text::after {
+        content: '';
+    }
+
+    h2 {
+        text-align: center;
+        color: #9FD8fa;
+        font-weight: normal;
     }
 }
