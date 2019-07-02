@@ -372,9 +372,7 @@ footer.flex-container {
 	}
 
 	main.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+		display: block;
 	}
 	
 	main.container article { flex: 1; }
@@ -411,5 +409,5 @@ footer.flex-container {
 
 	aside.news-bar .item {
 		margin: 0 auto;
-	}	
+	}
 }
