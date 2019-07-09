@@ -5,6 +5,7 @@ let
     userResult = 0,
     userLastResult = 0,
     userTry = 3,
+    maxUserTry = 3,
     minRange = 8,
     maxAttempts = 3,
 
@@ -33,7 +34,7 @@ if (askPlay === true) {
             userResult = prizes[i] + userLastResult;
             let askContinue = confirm('Congratulation! You won!\nYour prize is: ' + userResult + '$\nPlay again?');
             if (askContinue) {
-                userTry = 3;
+                userTry = maxUserTry;
                 userLastResult = userResult;
                 first *= twice;
                 second *= twice;
