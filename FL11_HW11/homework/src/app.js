@@ -7,29 +7,63 @@ addButton.setAttribute('disabled', 'disabled');
 let ul = document.createElement('ul');
 rootNode.appendChild(ul);
 
+// drag & drop
+
+let dragEl;
+
+let dragStart = (e) => {
+	dragEl = e.target;
+	e.dataTransfer.effectAllowed = 'move';
+	e.dataTransfer.setData('text/html', e.target.innerHTML);
+}
+
+let dragOver = (e) => e.preventDefault();
+
+function dragDrop (e) {
+  if (e.stopPropagation) {
+	e.stopPropagation();
+  }
+
+  if (dragEl !== e.target) {
+	dragEl.innerHTML = this.innerHTML;
+	this.innerHTML = e.dataTransfer.getData('text/html');
+	let listItems = rootNode.childNodes[9];
+	for (let i = 0; i < listItems.childNodes.length; i++) {
+		listItems.childNodes[i].firstChild.addEventListener('click', checkIn, {
+			once: true
+		});
+		listItems.childNodes[i].childNodes[2].addEventListener('click', edit, false);
+		listItems.childNodes[i].lastChild.addEventListener('click', remove, false);
+	}
+  }
+}
+
+// List-Item basic functionality
+
 let addElement = () => {
     let text = inputField.value;
     let li = document.createElement('li');
-    li.classList.add('list-item');
+	li.classList.add('list-item');
+	li.setAttribute('draggable', 'true');
     li.innerHTML = '<i class="material-icons add-btn">check_box_outline_blank</i>'
         + '<p>' + text + '</p>'
         + '<i class="material-icons add-btn">border_color</i>'
         + '<i class="material-icons add-btn">delete</i>';
     ul.appendChild(li);
     inputField.value = '';
-
     li.firstChild.addEventListener('click', checkIn, {
         once: true
     });
     li.childNodes[2].addEventListener('click', edit, false);
-    li.lastChild.addEventListener('click', remove, false);
+	li.lastChild.addEventListener('click', remove, false);
+
+	li.addEventListener('dragstart', dragStart, false);
+	li.addEventListener('dragover', dragOver, false);
+	li.addEventListener('drop', dragDrop, false);
+
     check();
 }
 
-let remove = (element) => {
-    element.target.parentNode.parentNode.removeChild(element.target.parentNode);
-    check();
-}
 let checkIn = (element) => {
     element.target.innerHTML = 'check_box';
     element.target.parentNode.childNodes[1].style.textDecoration = 'line-through';
@@ -54,8 +88,11 @@ let edit = (element) => {
         checkBtnNode.style.display = 'block';
         editBtnNode.style.display = 'block';
     });
+}
 
-
+let remove = (element) => {
+    element.target.parentNode.parentNode.removeChild(element.target.parentNode);
+    check();
 }
 
 let check = () => {
