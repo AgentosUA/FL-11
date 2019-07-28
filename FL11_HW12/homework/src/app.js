@@ -1,27 +1,22 @@
 const rootNode = document.getElementById('root');
 
-const todoItems = [
-    // { isDone: false, id: 1, description: 'Todo 1' }
-];
+const mainHash = '';
+const addHash = '#add';
+const modifyHash = '#modify';
+
+let localKeyToDo = 'TodoList',
+    todoItems = JSON.parse(localStorage.getItem(localKeyToDo)) || [];
 
 let setItemToStorage = (array, localStorageKey) => {
     localStorage.setItem(localStorageKey, JSON.stringify(array));
 }
-
-let localKeyToDo = 'Todo List',
-    localKeyDone = 'Done list',
-    getToDoKey = localStorage.getItem(localKeyToDo),
-    getDoneKey = localStorage.getItem(localKeyDone);
-
-const mainHash = '';
-const addHash = '#add';
-const modifyHash = '#modify';
 
 let addNewElement = (e) => {
     let value = e.target.parentNode.childNodes[1].value;
     value = { isDone: false, id: todoItems.length + 1, description: value }
     todoItems.push(value);
     location.hash = mainHash;
+    setItemToStorage(todoItems, localKeyToDo);
 }
 
 let removeThis = (e) => {
@@ -34,6 +29,7 @@ let removeThis = (e) => {
     }
     todoItems.splice(uncheckedId, 1);
     ul.removeChild(li);
+    setItemToStorage(todoItems, localKeyToDo);
     homePage();
 }
 
@@ -47,9 +43,12 @@ let doneThis = (e) => {
     let uncheckedId = todoItems.findIndex(item => item.id === id);
 
     if (uncheckedId === -1) {
+        setItemToStorage(todoItems, localKeyToDo);
         return;
+
     }
     todoItems[uncheckedId].isDone = true;
+    setItemToStorage(todoItems, localKeyToDo);
 }
 
 let homePage = () => {
@@ -62,6 +61,7 @@ let homePage = () => {
     addButton.innerText = 'Add new task'
     rootNode.appendChild(title);
     rootNode.appendChild(addButton);
+
     let listItem = todoItems.filter(item => {
         return item.isDone === false;
     })
@@ -106,6 +106,7 @@ let homePage = () => {
     addButton.addEventListener('click', () => {
         location.hash = addHash;
     });
+    setItemToStorage(todoItems, localKeyToDo);
 }
 
 let addPage = () => {
@@ -168,6 +169,7 @@ let modifyPage = () => {
         }
         itemId.description = input.value;
         location.hash = mainHash;
+        setItemToStorage(todoItems, localKeyToDo);
     });
 
 }
