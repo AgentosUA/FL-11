@@ -13,6 +13,30 @@ let setItemToStorage = (array, localStorageKey) => {
 
 let addNewElement = (e) => {
     let value = e.target.parentNode.childNodes[1].value;
+
+    let isExists = false;
+    for (let i = 0; i < todoItems.length; i++) {
+        if (todoItems[i].description === value) {
+            isExists = true;
+            break;
+        }
+    }
+    if (isExists) {
+        let notification = document.createElement('div');
+        notification.innerHTML = '<h2>Danger!</h2><p>You add existing item!</p>';
+
+        if (window.chrome) {
+            notification.classList = 'notification chrome-position';
+        } else {
+            notification.classList = 'notification other-position';
+        }
+
+        rootNode.parentElement.appendChild(notification);
+        setTimeout(() => {
+            rootNode.parentElement.removeChild(rootNode.parentElement.lastChild);
+        }, 2000);
+        return;
+    }
     value = { isDone: false, id: todoItems.length + 1, description: value }
     todoItems.push(value);
     location.hash = mainHash;
