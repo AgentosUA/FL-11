@@ -33,8 +33,8 @@ let removeThis = (e) => {
     homePage();
 }
 
-let doneThis = (e) => {
-    e.target.setAttribute('src', 'assets/img/done-s.png');
+let notDoneThis = (e) => {
+    e.target.setAttribute('src', 'assets/img/todo-s.png');
     let ul = e.target.parentNode.parentNode;
     let li = e.target.parentNode;
     ul.appendChild(li);
@@ -45,10 +45,33 @@ let doneThis = (e) => {
     if (uncheckedId === -1) {
         setItemToStorage(todoItems, localKeyToDo);
         return;
-
     }
+    e.target.addEventListener('click', doneThis, {
+        once: true
+    });
+    todoItems[uncheckedId].isDone = false;
+    setItemToStorage(todoItems, localKeyToDo);
+    homePage();
+}
+
+let doneThis = (e) => {
+    e.target.setAttribute('src', 'assets/img/done-s.png');
+    let ul = e.target.parentNode.parentNode;
+    let li = e.target.parentNode;
+    ul.appendChild(li);
+
+    let id = parseInt(li.id);
+    let uncheckedId = todoItems.findIndex(item => item.id === id);
+    if (uncheckedId === -1) {
+        setItemToStorage(todoItems, localKeyToDo);
+        return;
+    }
+    e.target.addEventListener('click', notDoneThis, {
+        once: true
+    });
     todoItems[uncheckedId].isDone = true;
     setItemToStorage(todoItems, localKeyToDo);
+    location.hash = mainHash;
 }
 
 let homePage = () => {
@@ -95,9 +118,15 @@ let homePage = () => {
             + deleteImage;
         ul.appendChild(li);
 
-        li.childNodes[0].addEventListener('click', doneThis, {
-            once: true
-        });
+        if (listItem[i].isDone) {
+            li.childNodes[0].addEventListener('click', notDoneThis, {
+                once: true
+            });
+        } else {
+            li.childNodes[0].addEventListener('click', doneThis, {
+                once: true
+            });
+        }
         li.childNodes[2].addEventListener('click', removeThis, {
             once: true
         });
@@ -137,11 +166,31 @@ let addPage = () => {
 }
 
 let modifyPage = () => {
+    let id = parseInt(location.hash.split('/').pop());
+    let itemId = todoItems.find(item => item.id === id);
+    if (itemId.isDone === true) {
+        location.hash = mainHash;
+        let notification = document.createElement('div');
+        notification.innerHTML = '<h2>Danger!</h2><p>You can\'t modify checked item!</p>';
+
+        if (window.chrome) {
+            notification.classList = 'notification chrome-position';
+        } else {
+            notification.classList = 'notification other-position';
+        }
+
+        rootNode.parentElement.appendChild(notification);
+        setTimeout(() => {
+            rootNode.parentElement.removeChild(rootNode.parentElement.lastChild);
+        }, 2000);
+        return;
+    }
     rootNode.innerHTML = '';
     let title = document.createElement('h1');
     title.innerText = 'Edit Task';
 
     let input = document.createElement('input');
+    input.value = itemId.description;
     let br = document.createElement('br');
 
     let cancelButton = document.createElement('button');
@@ -161,8 +210,6 @@ let modifyPage = () => {
         location.hash = mainHash;
     });
     addButton.addEventListener('click', () => {
-        let id = parseInt(location.hash.split('/').pop());
-        let itemId = todoItems.find(item => item.id === id);
         if (!itemId) {
             window.location.hash = mainHash;
             return;
@@ -171,7 +218,6 @@ let modifyPage = () => {
         location.hash = mainHash;
         setItemToStorage(todoItems, localKeyToDo);
     });
-
 }
 
 let checkCurrentHash = () => {

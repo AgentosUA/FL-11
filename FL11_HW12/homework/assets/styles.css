@@ -5,6 +5,7 @@
 
 body {
     background: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png");
+    font-family: Arial;
 }
 
 #root {
@@ -53,4 +54,29 @@ input {
     margin: 0 25px;
     width: 25px;
     height: 25px;
+}
+
+.notification {
+    padding: 30px;
+    width: 150px;
+    background: #D8683B;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.notification h2 {
+    font-size: 22px;
+}
+
+.chrome-position {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+.other-position {
+    position: absolute;
+    top: 25px;
+    right: 25px;
 }
